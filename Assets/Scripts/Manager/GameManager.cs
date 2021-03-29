@@ -30,7 +30,6 @@ public class GameManager : Manager<GameManager>
 
 		//MainMenuManager
 		EventManager.Instance.AddListener<MainMenuButtonClickedEvent>(MainMenuButtonClicked);
-		EventManager.Instance.AddListener<PlayerHasBeenHitEvent>(PlayerHasBeenHit);
 		EventManager.Instance.AddListener<PlayButtonClickedEvent>(PlayButtonClicked);
 		EventManager.Instance.AddListener<ResumeButtonClickedEvent>(ResumeButtonClicked);
 		EventManager.Instance.AddListener<EscapeButtonClickedEvent>(EscapeButtonClicked);
@@ -43,7 +42,6 @@ public class GameManager : Manager<GameManager>
 
 		//MainMenuManager
 		EventManager.Instance.RemoveListener<MainMenuButtonClickedEvent>(MainMenuButtonClicked);
-		EventManager.Instance.RemoveListener<PlayerHasBeenHitEvent>(PlayerHasBeenHit);
 		EventManager.Instance.RemoveListener<PlayButtonClickedEvent>(PlayButtonClicked);
 		EventManager.Instance.RemoveListener<ResumeButtonClickedEvent>(ResumeButtonClicked);
 		EventManager.Instance.RemoveListener<EscapeButtonClickedEvent>(EscapeButtonClicked);

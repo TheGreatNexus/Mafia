@@ -23,23 +23,5 @@ public class HUDManager : Manager<HUDManager>
 	}
 	#endregion
 
-	#region Callbacks to GameManager events
-	protected override void GameStatisticsChanged(GameStatisticsChangedEvent e)
-	{
-		//m_TxtBestScore.text = e.eBestScore.ToString();
-		//m_TxtScore.text = e.eScore.ToString();
-		if (e.eNLives == 2)
-		{
-			m_Life3.SetActive(false);
-		}
-		if (e.eNLives == 1)
-		{
-			m_Life2.SetActive(false);
-		}
-        if (e.eNLives == 0)
-        {
-            m_Life1.SetActive(false);
-        }
-	}
-	#endregion
+
 }
