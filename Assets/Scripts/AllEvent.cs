@@ -42,3 +42,46 @@ public class QuitButtonClickedEvent : SDD.Events.Event
 }
 #endregion
 
+#region HudManager Event
+public class PlusButtonClickedEvent : SDD.Events.Event
+{
+}
+public class MinusButtonClickedEvent : SDD.Events.Event
+{
+}
+public class PlusGFButtonClickedEvent : SDD.Events.Event
+{
+}
+public class MinusGFButtonClickedEvent : SDD.Events.Event
+{
+}
+public class TakeDiamondsButtonClickedEvent : SDD.Events.Event
+{
+}
+public class TokenButtonClickedEvent : SDD.Events.Event
+{
+    public string eToken { get; set; }
+}
+public class DiamondsButtonClickedEvent : SDD.Events.Event
+{
+}
+public class BackButtonClickedEvent : SDD.Events.Event
+{
+}
+public class TakeTokenButtonClickedEvent : SDD.Events.Event
+{
+}
+public class PlusSDButtonClickedEvent : SDD.Events.Event
+{
+}
+public class MinusSDButtonClickedEvent : SDD.Events.Event
+{
+}
+public class StealDiamondsButtonClickedEvent : SDD.Events.Event
+{
+}
+public class PassButtonClickedEvent : SDD.Events.Event
+{
+}
+#endregion
+
