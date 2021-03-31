@@ -110,7 +110,7 @@ public class GameManager : Manager<GameManager>
     #region Callbacks to Events issued by MenuManager
     private void MainMenuButtonClicked(MainMenuButtonClickedEvent e)
     {
-        Menu();
+        SceneManager.LoadScene("SampleScene");
     }
 
     private void PlayButtonClicked(PlayButtonClickedEvent e)
@@ -271,7 +271,7 @@ public class GameManager : Manager<GameManager>
     }
     private void Quit()
     {
-        EventManager.Instance.Raise(new GameQuitEvent());
+        Application.Quit();
     }
 
     private void Play()
