@@ -13,7 +13,7 @@ public class MenuManager : Manager<MenuManager>
     [Header("Panels")]
     [SerializeField] GameObject m_PanelMainMenu;
     [SerializeField] GameObject m_PanelInGameMenu;
-    [SerializeField] GameObject m_PanelGameOver;
+    [SerializeField] GameObject m_PanelWin;
 
     List<GameObject> m_AllPanels;
     #endregion
@@ -47,7 +47,7 @@ public class MenuManager : Manager<MenuManager>
         m_AllPanels = new List<GameObject>();
         if (m_PanelMainMenu) m_AllPanels.Add(m_PanelMainMenu);
         if (m_PanelInGameMenu) m_AllPanels.Add(m_PanelInGameMenu);
-        if (m_PanelGameOver) m_AllPanels.Add(m_PanelGameOver);
+        if (m_PanelWin) m_AllPanels.Add(m_PanelWin);
     }
 
     void OpenPanel(GameObject panel)
@@ -133,6 +133,10 @@ public class MenuManager : Manager<MenuManager>
     {
         EventManager.Instance.Raise(new PassButtonClickedEvent());
     }
+    public void AccusedButtonHasBeenClicked(GameObject player)
+    {
+        EventManager.Instance.Raise(new AccusateButtonClickedEvent(){ePlayer = player});
+    }
     #endregion
 
     #region Callbacks to GameManager events
@@ -148,7 +152,7 @@ public class MenuManager : Manager<MenuManager>
 
     protected override void GameOver(GameOverEvent e)
     {
-        OpenPanel(m_PanelGameOver);
+        OpenPanel(m_PanelWin);
     }
 
     protected override void GamePause(GamePauseEvent e)

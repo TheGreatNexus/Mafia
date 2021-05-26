@@ -36,9 +36,10 @@ public class GameManager : Manager<GameManager>
     [SerializeField] GameObject ChestPanel;
     [SerializeField] GameObject DiamondsPanel;
     [SerializeField] GameObject TokenPanel;
-    [SerializeField] GameObject LastPlayerPanel;
-    [SerializeField] GameObject ChoicePannel;
+    [SerializeField] GameObject GodFatherReturnPanel;
+    [SerializeField] GameObject PassButton;
     [SerializeField] GameObject[] chestItems;
+    [SerializeField] GameObject[] PlayerList;
 
     #region Events' subscription
     public override void SubscribeEvents()
@@ -66,6 +67,7 @@ public class GameManager : Manager<GameManager>
         EventManager.Instance.AddListener<PlusSDButtonClickedEvent>(PlusSDButtonClicked);
         EventManager.Instance.AddListener<StealDiamondsButtonClickedEvent>(StealDiamondsButtonClicked);
         EventManager.Instance.AddListener<PassButtonClickedEvent>(PassButtonClicked);
+        EventManager.Instance.AddListener<AccusateButtonClickedEvent>(AccusateBtn);
     }
 
     public override void UnsubscribeEvents()
@@ -93,6 +95,7 @@ public class GameManager : Manager<GameManager>
         EventManager.Instance.RemoveListener<PlusSDButtonClickedEvent>(PlusSDButtonClicked);
         EventManager.Instance.RemoveListener<StealDiamondsButtonClickedEvent>(StealDiamondsButtonClicked);
         EventManager.Instance.RemoveListener<PassButtonClickedEvent>(PassButtonClicked);
+        EventManager.Instance.RemoveListener<AccusateButtonClickedEvent>(AccusateBtn);
 
 
     }
@@ -260,6 +263,21 @@ public class GameManager : Manager<GameManager>
         m_PlayerList[m_PlayerNb-1].role ="Street child";
         endTurn();
     }
+    private void AccusateBtn(AccusateButtonClickedEvent e)
+    {
+        int nb = int.Parse(e.ePlayer.name.Substring(e.ePlayer.name.Length-1));
+          if(m_PlayerList[nb -1].role =="Thief"){
+              m_CurrentGameChest.diamonds += m_PlayerList[nb - 1].diamonds;
+              m_PlayerList[nb - 1].diamonds = 0;
+              e.ePlayer.SetActive(false);
+              GameObject.Find("diamondsNb").GetComponent<UnityEngine.UI.Text>().text = m_CurrentGameChest.diamonds.ToString();
+          }else{
+              win("Thief");
+          }
+          if(m_CurrentGameChest.diamonds == 15){
+              win("GodFather");
+          }
+    }
     #endregion
 
     //EVENTS
@@ -340,6 +358,10 @@ public class GameManager : Manager<GameManager>
             default:
                 break;
         }
+        for (int i = m_TotalPlayersNb - 1; i <= 10; i++)
+        {
+            PlayerList[i].SetActive(false);
+        }
         m_PlayerList.Add(new Player("Player1", "GodFather"));
         for (int i = 2; i <= m_TotalPlayersNb; i++)
         {
@@ -364,22 +386,36 @@ public class GameManager : Manager<GameManager>
 
     private void LastPlayerTurn()
     {
-        ChestPanel.SetActive(false);
-        LastPlayerPanel.SetActive(true);
+        ChestPanel.SetActive(true);
+        PassButton.SetActive(true);
         RefreshChestDisplay();
     }
 
     private void GodFathersReTurn(){
-        LastPlayerPanel.SetActive(false);
+        m_CurrentGameChest.diamonds += m_PlayerList[0].diamonds;
+        m_PlayerList[0].diamonds =0;
+        ChestPanel.SetActive(false);
+        PassButton.SetActive(false);
+        GodFatherReturnPanel.SetActive(true);
+        GameObject.Find("diamondsNb").GetComponent<UnityEngine.UI.Text>().text = m_CurrentGameChest.diamonds.ToString();
     }
 
-    private void endTurn()
+
+
+    private void win(string Role)
+    {
+        GodFatherReturnPanel.SetActive(false);
+        EventManager.Instance.Raise(new GameOverEvent());
+        GameObject.Find("winConditionTxt").GetComponent<UnityEngine.UI.Text>().text = Role + " wins";
+        Debug.Log(Role + " Wins");
+    }
+        private void endTurn()
     {   
         GodFatherPanel.SetActive(false);
         TokenPanel.SetActive(false);
         DiamondsPanel.SetActive(false);
         ChestPanel.SetActive(false);
-        LastPlayerPanel.SetActive(false);
+        GodFatherReturnPanel.SetActive(false);
         Debug.Log("Name : "+m_PlayerList[m_PlayerNb-1].name+"\n Diamonds : "+m_PlayerList[m_PlayerNb-1].diamonds + "\n Role : "+ m_PlayerList[m_PlayerNb-1].role);
         if (m_PlayerNb < m_TotalPlayersNb - 1)
         {

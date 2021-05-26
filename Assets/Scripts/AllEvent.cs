@@ -83,5 +83,9 @@ public class StealDiamondsButtonClickedEvent : SDD.Events.Event
 public class PassButtonClickedEvent : SDD.Events.Event
 {
 }
+public class AccusateButtonClickedEvent : SDD.Events.Event
+{
+    public GameObject ePlayer { get; set; }
+}
 #endregion
 
